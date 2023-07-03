@@ -2,7 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as Dialog from "@radix-ui/react-dialog";
 import { ArrowCircleDown, ArrowCircleUp, X } from "phosphor-react";
 import * as z from "zod";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import {
   Overlay,
   Content,
@@ -15,13 +15,18 @@ const newTransactionFormSchema = z.object({
   description: z.string(),
   price: z.number(),
   category: z.string(),
-  /* type: z.enum(["income", "outcome"]), */
+  type: z.enum(["income", "outcome"]),
 });
 
 type NewTransactionFormInputs = z.infer<typeof newTransactionFormSchema>;
 
 export function NewTransactionModal() {
-  const { register, formState: {isSubmitting}, handleSubmit } = useForm<NewTransactionFormInputs>({
+  const {
+    register,
+    formState: { isSubmitting },
+    handleSubmit,
+    control,
+  } = useForm<NewTransactionFormInputs>({
     resolver: zodResolver(newTransactionFormSchema),
   });
 
@@ -59,18 +64,31 @@ export function NewTransactionModal() {
             required
           />
 
-          <TransactionType>
-            <TransactionTypeButton variant="income" value="income">
-              <ArrowCircleUp size={24} />
-              Entrada
-            </TransactionTypeButton>
+          <Controller
+            control={control}
+            name="type"
+            render={({field}) => {
+              return (
+                <TransactionType onValueChange={(value: string) =>
+                field.onChange(value as NewTransactionFormInputs['type'])
+                }
+                value={field.value}>
+                  <TransactionTypeButton variant="income" value="income">
+                    <ArrowCircleUp size={24} />
+                    Entrada
+                  </TransactionTypeButton>
 
-            <TransactionTypeButton variant="outcome" value="outcome">
-              <ArrowCircleDown size={24} />
-              Saida
-            </TransactionTypeButton>
-          </TransactionType>
-          <button type="submit" disabled={isSubmitting} >Cadastrar</button>
+                  <TransactionTypeButton variant="outcome" value="outcome">
+                    <ArrowCircleDown size={24} />
+                    Saida
+                  </TransactionTypeButton>
+                </TransactionType>
+              );
+            }}
+          />
+          <button type="submit" disabled={isSubmitting}>
+            Cadastrar
+          </button>
         </form>
       </Content>
     </Dialog.Portal>
