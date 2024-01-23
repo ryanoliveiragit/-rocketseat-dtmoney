@@ -12,7 +12,7 @@
 <br>
 
 <p align="center">
-  <img alt="Página da aplicação DtMoney" src="https://user-images.githubusercontent.com/83538547/201404730-039017a6-69e3-4319-935e-cf5aa76415e8.png" width="100%">
+  <img alt="Página da aplicação DtMoney" src="https://cdn.discordapp.com/attachments/1059174040767561838/1199154883559968838/dtMoney.png?ex=65c18303&is=65af0e03&hm=03c40c9bda2319e07e486844d558c9d5eb9986b0229a6457c247ea80f3da8670" width="100%">
 </p>
 
 ## 🚀 Tecnologias
